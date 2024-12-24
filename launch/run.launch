@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="project" default="II_NVM"/>
+  <!-- <param name="/use_sim_time" value="true" /> -->
+  <arg name="rviz" default="true" />
+
+  <!-- <node pkg="$(arg project)"  type="$(arg project)_normal"  name="$(arg project)_normal"  output="screen" launch-prefix="xterm -e gdb"/> -->
+  <node pkg="$(arg project)" type="$(arg project)_normal" name="$(arg project)_normal" output="screen" required="true" 
+    args= "-config_directory $(find II_NVM)/config">
+  </node>
+
+  <group if="$(arg rviz)">
+    <node launch-prefix="nice" pkg="rviz" type="rviz" name="II_NVM" args="-d $(find II_NVM)/launch/rviz.rviz" />
+  </group>
+
+</launch>
