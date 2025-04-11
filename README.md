@@ -32,14 +32,23 @@
     #-co-first authors            *-corresponding authors
 </div> -->
 
+<p align="center">
+  <img src="doc/double-side.png" width="80%">
+  <br><em>illustrates a real-world scenario where the double-sided mapping issue arises, presenting examples of both erroneous and correct mappings.</em>
+</p>
 
 <p align="center">
   <img src="doc/real.png" width="80%">
-  <br><em>Demonstration of real-world scenarios where mapping results of walls and doors inareal scenario.</em>
+  <br><em>Demonstration of real-world scenarios where mapping results of walls and doors in a real scenario.</em>
 </p>
 <p align="center">
   <img src="doc/overview.png" width="80%">
   <br><em>System Overview: II-NVM Pipeline</em>
+</p>
+
+<p align="center">
+  <img src="doc/compare.png" width="80%">
+  <br><em>Comparison of localization estimates from different algorithms.</em>
 </p>
 
 ## Abstract
@@ -51,7 +60,8 @@ SLAM technology plays a crucial role in indoor mapping and localization. A commo
 ## Note:
 The code is currently being refactored, and we will open-source it in the near future.
 
-### News
+
+## News
 * **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
 
 
