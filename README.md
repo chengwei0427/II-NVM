@@ -5,7 +5,7 @@
   <br>
 
   [![Code](https://img.shields.io/badge/Code-GitHub-blue?logo=github)](https://github.com/chengwei0427/II-NVM)
-  [![arXiv](https://img.shields.io/badge/arXiv-II-NVM-b31b1b.svg)](https://arxiv.org/abs/)
+  [![arXiv](https://img.shields.io/badge/arXiv-II-NVM-b31b1b.svg)](https://arxiv.org/abs/2504.08204)
   [![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=qso39uI7l38)
 
   
@@ -63,6 +63,7 @@ The code is currently being refactored, and we will open-source it in the near f
 
 ## News
 * **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
+* **[11/04/2025]**: Submitted the paper to arxiv.
 
 
 ##  II-NVM Dataset
