@@ -5,7 +5,7 @@
   <br>
 
   [![Code](https://img.shields.io/badge/Code-GitHub-blue?logo=github)](https://github.com/chengwei0427/II-NVM)
-  [![arXiv](https://img.shields.io/badge/arXiv-II-NVM-b31b1b.svg)](https://arxiv.org/abs/2504.08204)
+  [![arXiv](https://img.shields.io/badge/arXiv-2504.08204-b31b1b.svg)](https://arxiv.org/abs/2504.08204)
   [![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=qso39uI7l38)
 
   
