@@ -7,6 +7,7 @@
   [![Code](https://img.shields.io/badge/Code-GitHub-blue?logo=github)](https://github.com/chengwei0427/II-NVM)
   [![arXiv](https://img.shields.io/badge/arXiv-2504.08204-b31b1b.svg)](https://arxiv.org/abs/2504.08204)
   [![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=qso39uI7l38)
+  <!-- [![Paper](https://img.shields.io/badge/Paper-RAL-004088.svg)](https://ieeexplore.ieee.org/document/10966190) -->
 
   
 </div>
@@ -61,11 +62,32 @@ SLAM technology plays a crucial role in indoor mapping and localization. A commo
 The code is currently being refactored, and we will open-source it in the near future.
 
 
-## News
+## :memo: News
 * **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
 * **[11/04/2025]**: Submitted the paper to arxiv.
 
 
-##  II-NVM Dataset
+##  📁 II-NVM Dataset
 
 Our data has been uploaded to [OneDrive](https://entuedu-my.sharepoint.com/:f:/g/personal/jie_xu_staff_main_ntu_edu_sg/Ekeh2Zi-lbdOgkuxB4D1M8EBJaZAwX00rhJwaZrFHqQ70Q?e=cz42sW). For users in mainland China, we provide a [Baidu Cloud](https://pan.baidu.com/s/1HvK_M_f96uGb4USGiEX7Ow), with the extraction code: 5678.
+
+
+## 📖 Citation
+
+If your like our projects, please cite us and support us with a star 🌟.
+We kindly recommend to cite [our paper](https://ieeexplore.ieee.org/document/10966190) if you find this library useful:
+
+
+```
+@ARTICLE{10966190,
+  author={Zhao, Chengwei and Li, Yixuan and Jian, Yina and Xu, Jie and Wang, Linji and Ma, Yongxin and Jin, Xinglai},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={II-NVM: Enhancing Map Accuracy and Consistency with Normal Vector-Assisted Mapping}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-8},
+  keywords={Vectors;Point cloud compression;Accuracy;Simultaneous localization and mapping;Laser radar;Real-time systems;Pose estimation;Odometry;Data mining;Artificial intelligence;SLAM;Mapping;indoor;double-sided mapping issue;normal vector-assisted},
+  doi={10.1109/LRA.2025.3561568}}
+
+```
