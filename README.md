@@ -82,11 +82,11 @@ We kindly recommend to cite [our paper](https://ieeexplore.ieee.org/document/109
 @ARTICLE{10966190,
   author={Zhao, Chengwei and Li, Yixuan and Jian, Yina and Xu, Jie and Wang, Linji and Ma, Yongxin and Jin, Xinglai},
   journal={IEEE Robotics and Automation Letters}, 
-  title={II-NVM: Enhancing Map Accuracy and Consistency with Normal Vector-Assisted Mapping}, 
+  title={II-NVM: Enhancing Map Accuracy and Consistency With Normal Vector-Assisted Mapping}, 
   year={2025},
-  volume={},
-  number={},
-  pages={1-8},
+  volume={10},
+  number={6},
+  pages={5465-5472},
   keywords={Vectors;Point cloud compression;Accuracy;Simultaneous localization and mapping;Laser radar;Real-time systems;Pose estimation;Odometry;Data mining;Artificial intelligence;SLAM;Mapping;indoor;double-sided mapping issue;normal vector-assisted},
   doi={10.1109/LRA.2025.3561568}}
 
