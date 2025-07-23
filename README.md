@@ -6,6 +6,7 @@
 
   [![Code](https://img.shields.io/badge/Code-GitHub-blue?logo=github)](https://github.com/chengwei0427/II-NVM)
   [![arXiv](https://img.shields.io/badge/arXiv-2504.08204-b31b1b.svg)](https://arxiv.org/abs/2504.08204)
+  [![IEEE](https://img.shields.io/badge/Paper-RAL2025-004088.svg)](https://ieeexplore.ieee.org/document/10966190)
   [![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=qso39uI7l38)
   <!-- [![Paper](https://img.shields.io/badge/Paper-RAL-004088.svg)](https://ieeexplore.ieee.org/document/10966190) -->
 
@@ -51,6 +52,12 @@
   <img src="doc/compare.png" width="80%">
   <br><em>Comparison of localization estimates from different algorithms.</em>
 </p>
+
+<p align="center">
+  <img src="doc/motivations.png" width="80%">
+  <br><em>The extended work: NVMS-SLAM.</em>
+</p>
+
 
 ## Abstract
 SLAM technology plays a crucial role in indoor mapping and localization. A common challenge in indoor environments is the “double-sided mapping issue”, where closely positioned walls, doors, and other surfaces are mistakenly identified as a single plane, significantly hindering map accuracy and consistency. To addressing this issue this paper introduces a SLAM approach that ensures accurate mapping using normal vector consistency. We enhance the voxel map structure to store both point cloud data and normal vector information, enabling the system to evaluate consistency during nearest neighbor searches and map updates. This process distinguishes between the front and back sides of surfaces, preventing incorrect point-to-plane constraints. Moreover, we implement an adaptive radius KD-tree search method that dynamically adjusts the search radius based on the local density of the point cloud, thereby enhancing the accuracy of normal vector calculations. To further improve real time performance and storage efficiency, we incorporate a Least Recently Used (LRU) cache strategy, which facilitates efficient incremental updates of the voxel map. The code is released as open-source and validated in both simulated environments and real indoor scenarios. Experimental results demonstrate that this approach effectively resolves the “double-sided mapping issue” and significantly improves mapping precision. Additionally, we have developed and open-sourced the first simulation and real world dataset specifically tailored for the “double-sided mapping issue”.
