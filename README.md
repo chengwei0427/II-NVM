@@ -73,6 +73,7 @@ The code is currently being refactored, and we will open-source it in the near f
 * **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
 * **[11/04/2025]**: Submitted the paper to arxiv.
 * **[21/07/2025]**: The extended journal [NVMS-SLAM](https://github.com/lian-yue0515/NVMS-SLAM) of this paper has been submitted to IEEE, and the related code will be open-sourced after the paper is accepted. **🎉🎉🎉**
+* **[24/10/2025]**: Attend the IROS 2025 conference, and the code will be open-sourced before December.
 
 
 ##  📁 II-NVM Dataset
