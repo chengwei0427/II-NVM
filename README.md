@@ -65,21 +65,46 @@ SLAM technology plays a crucial role in indoor mapping and localization. A commo
 **Contributors**: [Chengwei Zhao](https://github.com/chengwei0427), [Yixuan Li](https://github.com/bojackhomeman), Yina Jian, [Jie Xu](https://github.com/jiejie567), Linji Wang, Yongxin Ma, Xinglai Jin 
 
 
-## Note:
-The code is currently being refactored, and we will open-source it in the near future.
-
-
 ## :memo: News
 * **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
 * **[11/04/2025]**: Submitted the paper to arxiv.
 * **[21/07/2025]**: The extended journal [NVMS-SLAM](https://github.com/lian-yue0515/NVMS-SLAM) of this paper has been submitted to IEEE, and the related code will be open-sourced after the paper is accepted. **🎉🎉🎉**
 * **[24/10/2025]**: Attend the IROS 2025 conference, and the code will be open-sourced before December.
+* **[10/12/2025]**: Code release.
 
 
 ##  📁 II-NVM Dataset
 
 Our data has been uploaded to [OneDrive](https://entuedu-my.sharepoint.com/:f:/g/personal/jie_xu_staff_main_ntu_edu_sg/Ekeh2Zi-lbdOgkuxB4D1M8EBJaZAwX00rhJwaZrFHqQ70Q?e=cz42sW). For users in mainland China, we provide a [Baidu Cloud](https://pan.baidu.com/s/1HvK_M_f96uGb4USGiEX7Ow), with the extraction code: 5678.
 
+
+## ✅ Installation Guide
+
+### 🔧 Recommended System Setup
+- **Operating System**: Ubuntu 20.04, Ubuntu 18.04
+
+### 🔧 Dependencies
+
+1. tbb
+
+2. ceres-210
+
+### 🔧 Build and Run
+
+```bash
+git clone https://github.com/chengwei0427/II-NVM.git
+cd II_NVM
+catkin_make
+source devel/setup.bash
+```
+
+###  🔧 Running the System
+
+```bash
+roslaunch II_NVM run.launch
+
+rosbag play yourbag.bag --clock
+```
 
 ## 📖 Citation
 
