@@ -66,11 +66,12 @@ SLAM technology plays a crucial role in indoor mapping and localization. A commo
 
 
 ## :memo: News
-* **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
-* **[11/04/2025]**: Submitted the paper to arxiv.
-* **[21/07/2025]**: The extended journal [NVMS-SLAM](https://github.com/lian-yue0515/NVMS-SLAM) of this paper has been submitted to IEEE, and the related code will be open-sourced after the paper is accepted. **🎉🎉🎉**
-* **[24/10/2025]**: Attend the IROS 2025 conference, and the code will be open-sourced before December.
+
 * **[10/12/2025]**: Code release.
+* **[24/10/2025]**: Attend the IROS 2025 conference, and the code will be open-sourced before December.
+* **[21/07/2025]**: The extended journal [NVMS-SLAM](https://github.com/lian-yue0515/NVMS-SLAM) of this paper has been submitted to IEEE, and the related code will be open-sourced after the paper is accepted. **🎉🎉🎉**
+* **[11/04/2025]**: Submitted the paper to arxiv.
+* **[10/04/2025]**: II-NVM is accepted to IEEE Robotics and Automation Letters.
 
 
 ##  📁 II-NVM Dataset
@@ -125,3 +126,8 @@ We kindly recommend to cite [our paper](https://ieeexplore.ieee.org/document/109
   doi={10.1109/LRA.2025.3561568}}
 
 ```
+
+
+## Acknowledgments
+
+Thanks for [CT-ICP](https://github.com/jedeschaud/ct_icp), [SR-LIVO](https://github.com/ZikangYuan/sr_livo) and [slam_in_autonomous_driving](https://github.com/gaoxiang12/slam_in_autonomous_driving).
