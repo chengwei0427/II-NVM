@@ -67,6 +67,7 @@ SLAM technology plays a crucial role in indoor mapping and localization. A commo
 
 ## :memo: News
 
+* **[15/12/2025]**: Upload ROS2 Version.
 * **[10/12/2025]**: Code release.
 * **[24/10/2025]**: Attend the IROS 2025 conference, and the code will be open-sourced before December.
 * **[21/07/2025]**: The extended journal [NVMS-SLAM](https://github.com/lian-yue0515/NVMS-SLAM) of this paper has been submitted to IEEE, and the related code will be open-sourced after the paper is accepted. **🎉🎉🎉**
@@ -82,7 +83,7 @@ Our data has been uploaded to [OneDrive](https://entuedu-my.sharepoint.com/:f:/g
 ## ✅ Installation Guide
 
 ### 🔧 Recommended System Setup
-- **Operating System**: Ubuntu 20.04, Ubuntu 18.04
+- **Operating System**: Ubuntu 22.04
 
 ### 🔧 Dependencies
 
@@ -94,15 +95,15 @@ Our data has been uploaded to [OneDrive](https://entuedu-my.sharepoint.com/:f:/g
 
 ```bash
 git clone https://github.com/chengwei0427/II-NVM.git
-cd II_NVM
-catkin_make
-source devel/setup.bash
+cd ..
+colcon build --packages-select II_NVM --cmake-args -DCMAKE_BUILD_TYPE=Release
+source install/setup.bash
 ```
 
 ###  🔧 Running the System
 
 ```bash
-roslaunch II_NVM run.launch
+ros2 launch II_NVM run.launch.py
 
 rosbag play yourbag.bag --clock
 ```
