@@ -13,13 +13,13 @@
 namespace zjloc
 {
 
-    void CloudConvert::Process(const livox_ros_driver::CustomMsg::ConstPtr &msg, std::vector<point3D> &pcl_out)
+    void CloudConvert::Process(const livox_ros_driver2::msg::CustomMsg::SharedPtr &msg, std::vector<point3D> &pcl_out)
     {
         AviaHandler(msg);
         pcl_out = cloud_out_;
     }
 
-    void CloudConvert::Process(const sensor_msgs::PointCloud2::ConstPtr &msg,
+    void CloudConvert::Process(const sensor_msgs::msg::PointCloud2::SharedPtr &msg,
                                std::vector<point3D> &pcl_out)
     {
         switch (param_.lidar_type)
@@ -47,7 +47,7 @@ namespace zjloc
         pcl_out = cloud_out_;
     }
 
-    void CloudConvert::AviaHandler(const livox_ros_driver::CustomMsg::ConstPtr &msg)
+    void CloudConvert::AviaHandler(const livox_ros_driver2::msg::CustomMsg::SharedPtr &msg)
     {
         cloud_out_.clear();
         cloud_full_.clear();
@@ -56,7 +56,7 @@ namespace zjloc
 
         static double tm_scale = 1e9;
 
-        double headertime = msg->header.stamp.toSec();
+        double headertime = ToSec(msg->header.stamp);
         timespan_ = msg->points.back().offset_time / tm_scale;
 
         // std::cout << "span:" << timespan_ << ",0: " << msg->points[0].offset_time / tm_scale
@@ -237,7 +237,7 @@ namespace zjloc
         std::cout << "takes: " << t1 << ", " << t2 << ", " << t3 << std::endl;
     }
 
-    void CloudConvert::Oust64Handler(const sensor_msgs::PointCloud2::ConstPtr &msg)
+    void CloudConvert::Oust64Handler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg)
     {
         cloud_out_.clear();
         cloud_full_.clear();
@@ -248,7 +248,7 @@ namespace zjloc
 
         static double tm_scale = 1e9;
 
-        double headertime = msg->header.stamp.toSec();
+        double headertime = ToSec(msg->header.stamp);
         // timespan_ = pl_orig.points.back().t / tm_scale;
         // std::cout << "span:" << timespan_ << ",0: " << pl_orig.points[0].t / tm_scale
         //           << " , 100: " << pl_orig.points[100].t / tm_scale << " , 1000: " << pl_orig.points[1000].t / tm_scale
@@ -382,7 +382,7 @@ namespace zjloc
         std::cout << "takes: " << t1 << ", " << t2 << ", " << t3 << std::endl;
     }
 
-    void CloudConvert::RobosenseHandler(const sensor_msgs::PointCloud2::ConstPtr &msg)
+    void CloudConvert::RobosenseHandler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg)
     {
         cloud_out_.clear();
         cloud_full_.clear();
@@ -391,7 +391,7 @@ namespace zjloc
         int plsize = pl_orig.size();
         cloud_out_.reserve(plsize);
 
-        double headertime = msg->header.stamp.toSec();
+        double headertime = ToSec(msg->header.stamp);
         //  FIXME:  时间戳大于0.1
         auto time_list_robosense = [&](robosense_ros::Point &point_1, robosense_ros::Point &point_2)
         {
@@ -445,7 +445,7 @@ namespace zjloc
         }
     }
 
-    void CloudConvert::VelodyneHandler(const sensor_msgs::PointCloud2::ConstPtr &msg)
+    void CloudConvert::VelodyneHandler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg)
     {
         cloud_out_.clear();
         cloud_full_.clear();
@@ -455,7 +455,7 @@ namespace zjloc
         int plsize = pl_orig.points.size();
         cloud_out_.reserve(plsize);
 
-        double headertime = msg->header.stamp.toSec();
+        double headertime = ToSec(msg->header.stamp);
 
         static double tm_scale = 1; //   1e6 - nclt kaist or 1
 
@@ -605,7 +605,7 @@ namespace zjloc
         std::cout << "takes: " << t1 << ", " << t2 << ", " << t3 << std::endl;
     }
 
-    void CloudConvert::AVIAPCHandler(const sensor_msgs::PointCloud2::ConstPtr &msg)
+    void CloudConvert::AVIAPCHandler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg)
     {
         cloud_out_.clear();
         cloud_full_.clear();
@@ -615,7 +615,7 @@ namespace zjloc
         int plsize = pl_orig.points.size();
         cloud_out_.reserve(plsize);
 
-        double headertime = msg->header.stamp.toSec();
+        double headertime = ToSec(msg->header.stamp);
 
         static double tm_scale = 1e9;
         auto time_list_livox = [&](livox_ros::Point &point_1, livox_ros::Point &point_2)

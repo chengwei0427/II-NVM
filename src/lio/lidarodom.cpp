@@ -114,6 +114,39 @@ namespace zjloc
           cond.notify_one();
      }
 
+     void lidarodom::loop()
+     {
+
+          std::vector<MeasureGroup> measurements;
+          std::unique_lock<std::mutex> lk(mtx_buf);
+          (measurements = getMeasureMents()).size();
+          lk.unlock();
+
+          for (auto &m : measurements)
+          {
+               zjloc::common::Timer::Evaluate([&]()
+                                              { ProcessMeasurements(m); },
+                                              "processMeasurement");
+
+               {
+                    auto real_time = std::chrono::high_resolution_clock::now();
+                    static std::chrono::system_clock::time_point prev_real_time = real_time;
+
+                    if (real_time - prev_real_time > std::chrono::seconds(5))
+                    {
+                         auto data_time = m.lidar_end_time_;
+                         static double prev_data_time = data_time;
+                         auto delta_real = std::chrono::duration_cast<std::chrono::milliseconds>(real_time - prev_real_time).count() * 0.001;
+                         auto delta_sim = data_time - prev_data_time;
+                         printf("Processing the rosbag at %.1fX speed.", delta_sim / delta_real);
+
+                         prev_data_time = data_time;
+                         prev_real_time = real_time;
+                    }
+               }
+          }
+     }
+
      void lidarodom::run()
      {
           while (true)

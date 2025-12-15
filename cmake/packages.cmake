@@ -1,7 +1,37 @@
 # 引入该目录下的.cmake文件
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-include_directories(${CMAKE_SOURCE_DIR}/../devel/include) # 引用ros生成的msg header
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(visualization_msgs REQUIRED)
+find_package(pcl_ros REQUIRED)
+find_package(pcl_conversions REQUIRED)
+find_package(livox_ros_driver2 REQUIRED)
+
+set(ros2_lib
+  rclcpp
+  geometry_msgs
+  nav_msgs
+  sensor_msgs
+  tf2_ros
+  visualization_msgs
+  pcl_ros
+  pcl_conversions
+  livox_ros_driver2
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+
+include_directories(
+    ${pcl_conversions_INCLUDR_DIRS}
+    ${rclcpp_INCLUDE_DIRS}
+    ${nav_msgs_INCLUDE_DIRS}
+)
 
 #       system config
 message("Current CPU archtecture: ${CMAKE_SYSTEM_PROCESSOR}")
@@ -24,9 +54,12 @@ else()
   add_definitions(-DMP_PROC_NUM=1)
 endif()
 
-find_package(OpenMP QUIET)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}   ${OpenMP_C_FLAGS}")
+# OMP
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif ()
 
 # eigen 3
 find_package(Eigen3 REQUIRED)
@@ -52,25 +85,19 @@ find_package(Cholmod REQUIRED)
 include_directories(${CHOLMOD_INCLUDE_DIRS})
 
 # pcl
+if(POLICY CMP0074)  #   抑制warning
+  cmake_policy(SET CMP0074 NEW)
+endif()
+
 find_package(PCL REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 
 #ceres
-find_package(Ceres 2 REQUIRED ) # PATHS /home/cc/workspace/3rdparty/ceres_210
+find_package(Ceres REQUIRED QUIET PATHS /home/cc/workspace/3rdparty/ceres_210)
 include_directories( ${CERES_INCLUDE_DIRS})
 link_directories(${CERES_LIBRARY_DIRS})
 
-# ros
-find_package(catkin REQUIRED COMPONENTS
-        roscpp
-        rospy
-        std_msgs
-        sensor_msgs
-        pcl_ros
-        pcl_conversions
-        )
-include_directories(${catkin_INCLUDE_DIRS})
 
 # yaml-cpp
 find_package(yaml-cpp REQUIRED)
@@ -109,43 +136,13 @@ if (NOT tessil_POPULATED)
 endif ()
 
 
-
-    set(third_party_libs
-            ${catkin_LIBRARIES}
-            ${PCL_LIBRARIES}
-            ${CERES_LIBRARIES}
-            libtbb.so
-            glog gflags
-            ${yaml-cpp_LIBRARIES}
-            yaml-cpp
-            TBB::tbb
-            robin_map
-            )
-
-
-##################################
-#            install
-##################################
-install(DIRECTORY launch/
-DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-FILES_MATCHING PATTERN "*.launch" PATTERN "*.rviz"
-)
-
-install(DIRECTORY include/${PROJECT_NAME}/
- DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
- FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
-)
-
-install(DIRECTORY config/
-DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
-FILES_MATCHING PATTERN "*.yaml" PATTERN "*.properties"
-)
-
-install(DIRECTORY scripts/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
-)
-
-install(DIRECTORY ${PROTOBUF_LIBRARY_DIRS} ${LOG4CPLUS_LIBRARY_DIR} ${CERES_LIBRARY_DIRS} 
-DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}/../
-FILES_MATCHING PATTERN "*.so*"
-)
+set(third_party_libs
+    ${PCL_LIBRARIES}
+    ${CERES_LIBRARIES}
+    libtbb.so
+    glog gflags
+    ${yaml-cpp_LIBRARIES}
+    yaml-cpp
+    TBB::tbb
+    robin_map
+    )

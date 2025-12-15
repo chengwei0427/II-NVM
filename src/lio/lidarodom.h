@@ -72,6 +72,7 @@ namespace zjloc
           void pushData(IMUPtr imu);
 
           void run();
+          void loop();
 
           int getIndex();
 

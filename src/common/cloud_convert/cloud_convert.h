@@ -1,6 +1,6 @@
 #pragma once
 
-#include <livox_ros_driver/CustomMsg.h>
+#include "livox_ros_driver2/msg/custom_msg.hpp"
 #include <pcl_conversions/pcl_conversions.h>
 
 #include <pcl/point_cloud.h>
@@ -8,6 +8,8 @@
 
 #include "common/point_types.h"
 #include "common/cloudMap.hpp"
+
+#include "common/ros_utils.h"
 
 namespace zjloc
 {
@@ -36,12 +38,6 @@ namespace zjloc
             : lidar_type(type), point_filter_num(filter_num), blind(blind_) {}
     };
 
-    /**
-     * 预处理雷达点云
-     *
-     * 将Velodyne, ouster, avia等数据转到FullCloud
-     * 该类由MessageSync类持有，负责将收到的雷达消息与IMU同步并预处理后，再交给LO/LIO算法
-     */
     class CloudConvert
     {
     public:
@@ -55,16 +51,14 @@ namespace zjloc
          * @param msg
          * @param pcl_out
          */
-        // void Process(const livox_ros_driver::CustomMsg::ConstPtr &msg, FullCloudPtr &pcl_out);
-        void Process(const livox_ros_driver::CustomMsg::ConstPtr &msg, std::vector<point3D> &pcl_out);
+        void Process(const livox_ros_driver2::msg::CustomMsg::SharedPtr &msg, std::vector<point3D> &pcl_out);
 
         /**
          * 处理sensor_msgs::PointCloud2点云
          * @param msg
          * @param pcl_out
          */
-        void Process(const sensor_msgs::PointCloud2::ConstPtr &msg, std::vector<point3D> &pcl_out);
-        // void Process(const sensor_msgs::PointCloud2::ConstPtr &msg, FullCloudPtr &pcl_out);
+        void Process(const sensor_msgs::msg::PointCloud2::SharedPtr &msg, std::vector<point3D> &pcl_out);
 
         Eigen::Vector3f computeNormal(const std::vector<Eigen::Vector3f> &neighbors);
         /// 从YAML中读取参数
@@ -78,11 +72,11 @@ namespace zjloc
         LidarType lidar_type_ = LidarType::AVIA; // 雷达类型
 
     private:
-        void AviaHandler(const livox_ros_driver::CustomMsg::ConstPtr &msg);
-        void Oust64Handler(const sensor_msgs::PointCloud2::ConstPtr &msg);
-        void VelodyneHandler(const sensor_msgs::PointCloud2::ConstPtr &msg);
-        void RobosenseHandler(const sensor_msgs::PointCloud2::ConstPtr &msg);
-        void AVIAPCHandler(const sensor_msgs::PointCloud2::ConstPtr &msg);
+        void AviaHandler(const livox_ros_driver2::msg::CustomMsg::SharedPtr &msg);
+        void Oust64Handler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg);
+        void VelodyneHandler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg);
+        void RobosenseHandler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg);
+        void AVIAPCHandler(const sensor_msgs::msg::PointCloud2::SharedPtr &msg);
 
         std::vector<point3D> cloud_full_, cloud_out_; //  输出点云
         CVTParam param_;
