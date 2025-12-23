@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  ii-nvm-ros1:
+    build:
+      context: .
+      dockerfile: Dockerfile.ros1
+    image: ii-nvm:ros1
+    container_name: ii-nvm-ros1
+    stdin_open: true
+    tty: true
+    privileged: true
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_MASTER_URI=http://localhost:11311
+      - ROS_IP=127.0.0.1
+      - ROS_HOSTNAME=localhost
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./data:/data
+      - ./bags:/bags
+    working_dir: /home/catkin_ws
+
+  ii-nvm-ros2:
+    build:
+      context: .
+      dockerfile: Dockerfile.ros2
+    image: ii-nvm:ros2
+    container_name: ii-nvm-ros2
+    stdin_open: true
+    tty: true
+    privileged: true
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./data:/data
+      - ./bags:/bags
+    working_dir: /home/cc/ros2_ws

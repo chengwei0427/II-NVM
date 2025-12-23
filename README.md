@@ -108,6 +108,40 @@ ros2 launch II_NVM run.launch.py
 rosbag play yourbag.bag --clock
 ```
 
+## 🐳 Docker
+
+#### ROS1 (Noetic - Ubuntu 20.04)
+```bash
+# Build
+docker compose build ii-nvm-ros1
+
+# Run
+./run_docker.sh 1
+
+# Inside container
+roslaunch II_NVM run.launch
+
+# New terminal - play bag
+docker exec -it ii-nvm-ros1 bash
+rosbag play /bags/your.bag --clock
+```
+
+#### ROS2 (Humble - Ubuntu 22.04)
+```bash
+# Build
+docker compose build ii-nvm-ros2
+
+# Run
+./run_docker.sh 2
+
+# Inside container
+ros2 launch II_NVM run.launch.py
+
+# New terminal - play bag
+docker exec -it ii-nvm-ros2 bash
+ros2 bag play /bags/your.bag --clock
+```
+
 ## 📖 Citation
 
 If your like our projects, please cite us and support us with a star 🌟.
