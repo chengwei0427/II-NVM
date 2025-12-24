@@ -1,0 +1,92 @@
+FROM osrf/ros:humble-desktop-full
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=humble
+
+# Install common dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    cmake \
+    build-essential \
+    libeigen3-dev \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    libatlas-base-dev \
+    libsuitesparse-dev \
+    libtbb-dev \
+    libpcl-dev \
+    libyaml-cpp-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ROS2 packages
+RUN apt-get update && apt-get install -y \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    ros-${ROS_DISTRO}-pcl-ros \
+    ros-${ROS_DISTRO}-pcl-conversions \
+    ros-${ROS_DISTRO}-eigen3-cmake-module \
+    ros-${ROS_DISTRO}-ament-cmake \
+    ros-${ROS_DISTRO}-ament-cmake-auto \
+    ros-${ROS_DISTRO}-rosidl-default-generators \
+    ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Ceres Solver 2.x
+WORKDIR /tmp
+RUN git clone https://github.com/ceres-solver/ceres-solver.git && \
+    cd ceres-solver && \
+    git checkout 2.1.0 && \
+    mkdir build && cd build && \
+    cmake .. \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_EXAMPLES=OFF && \
+    make -j$(nproc) && \
+    make install && \
+    cd /tmp && rm -rf ceres-solver
+
+# Install Livox SDK2
+WORKDIR /tmp
+RUN git clone https://github.com/Livox-SDK/Livox-SDK2.git && \
+    cd Livox-SDK2 && \
+    mkdir build && cd build && \
+    cmake .. && make -j$(nproc) && \
+    make install && \
+    cd /tmp && rm -rf Livox-SDK2
+
+# Build livox_ros_driver2
+RUN mkdir -p /home/cc/ros2_ws/src && \
+    cd /home/cc/ros2_ws/src && \
+    git clone https://github.com/Livox-SDK/livox_ros_driver2.git && \
+    cd livox_ros_driver2 && \
+    /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && ./build.sh humble"
+
+# Build II_NVM
+RUN cd /home/cc/ros2_ws/src && \
+    git clone https://github.com/chengwei0427/II-NVM.git -b ROS2 && \
+    cd /home/cc/ros2_ws && \
+    /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && source install/setup.bash && \
+    colcon build --packages-select II_NVM --cmake-args -DCMAKE_BUILD_TYPE=Release"
+
+# Setup entrypoint
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+source "/opt/ros/humble/setup.bash"\n\
+source "/home/cc/ros2_ws/install/setup.bash"\n\
+\n\
+export ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}\n\
+export RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}\n\
+\n\
+exec "$@"' > /ros_entrypoint.sh && \
+    chmod +x /ros_entrypoint.sh
+
+# Setup bashrc
+RUN echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc && \
+    echo 'source /home/cc/ros2_ws/install/setup.bash' >> ~/.bashrc && \
+    echo 'export ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}' >> ~/.bashrc
+
+WORKDIR /home/cc/ros2_ws
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]

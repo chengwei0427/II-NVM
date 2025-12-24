@@ -1,0 +1,88 @@
+FROM osrf/ros:noetic-desktop-full
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=noetic
+
+# Install common dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    cmake \
+    build-essential \
+    libeigen3-dev \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    libatlas-base-dev \
+    libsuitesparse-dev \
+    libtbb-dev \
+    libpcl-dev \
+    libyaml-cpp-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ROS1 packages
+RUN apt-get update && apt-get install -y \
+    python3-catkin-tools \
+    python3-rosdep \
+    python3-rosinstall \
+    python3-rosinstall-generator \
+    python3-wstool \
+    ros-${ROS_DISTRO}-pcl-ros \
+    ros-${ROS_DISTRO}-pcl-conversions \
+    ros-${ROS_DISTRO}-eigen-conversions \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Ceres Solver 2.x
+WORKDIR /tmp
+RUN git clone https://github.com/ceres-solver/ceres-solver.git && \
+    cd ceres-solver && \
+    git checkout 2.1.0 && \
+    mkdir build && cd build && \
+    cmake .. \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_EXAMPLES=OFF && \
+    make -j$(nproc) && \
+    make install && \
+    cd /tmp && rm -rf ceres-solver
+
+# Create workspace and clone repository
+RUN mkdir -p /home/catkin_ws/src && \
+    cd /home/catkin_ws/src && \
+    git clone https://github.com/chengwei0427/II-NVM.git -b main
+
+# Build workspace
+RUN cd /home/catkin_ws && \
+    /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && \
+    catkin_make livox_ros_driver_generate_messages -DCMAKE_BUILD_TYPE=Release" && \
+    /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && \
+    catkin_make -DCMAKE_BUILD_TYPE=Release"
+
+# Setup entrypoint
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+source "/opt/ros/noetic/setup.bash"\n\
+source "/home/catkin_ws/devel/setup.bash"\n\
+\n\
+export ROS_MASTER_URI=${ROS_MASTER_URI:-http://localhost:11311}\n\
+export ROS_IP=${ROS_IP:-127.0.0.1}\n\
+export ROS_HOSTNAME=${ROS_HOSTNAME:-localhost}\n\
+\n\
+exec "$@"' > /ros_entrypoint.sh && \
+    chmod +x /ros_entrypoint.sh
+
+# Setup bashrc
+RUN echo 'source /opt/ros/noetic/setup.bash' >> ~/.bashrc && \
+    echo 'source /home/catkin_ws/devel/setup.bash' >> ~/.bashrc && \
+    echo 'export ROS_MASTER_URI=${ROS_MASTER_URI:-http://localhost:11311}' >> ~/.bashrc && \
+    echo 'export ROS_IP=${ROS_IP:-127.0.0.1}' >> ~/.bashrc && \
+    echo 'export ROS_HOSTNAME=${ROS_HOSTNAME:-localhost}' >> ~/.bashrc
+
+ENV ROS_MASTER_URI=http://localhost:11311
+ENV ROS_IP=127.0.0.1
+ENV ROS_HOSTNAME=localhost
+ENV DISABLE_ROS1_EOL_WARNINGS=1
+
+WORKDIR /home/catkin_ws
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
