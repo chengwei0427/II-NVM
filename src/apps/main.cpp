@@ -46,7 +46,7 @@ public:
         std::string config_file_path = this->get_parameter("config_file_path").as_string();
         RCLCPP_INFO(this->get_logger(), "config file path: %s", config_file_path.c_str());
 
-        config_file = config_file_path/* + "mapping.yaml"*/;
+        config_file = config_file_path /* + "mapping.yaml"*/;
         std::cout << ANSI_COLOR_GREEN << "config_file:" << config_file << ANSI_COLOR_RESET << std::endl;
 
         lio = new zjloc::lidarodom();
@@ -64,12 +64,18 @@ public:
         initROS();
 
         auto period_ms = std::chrono::milliseconds(static_cast<int64_t>(30));
-        timer_ = rclcpp::create_timer(this, this->get_clock(), period_ms, std::bind(&zjloc::lidarodom::loop, lio));
+        // timer_ = rclcpp::create_timer(this, this->get_clock(), period_ms, std::bind(&zjloc::lidarodom::loop, lio));
+        run_thread = std::thread(&zjloc::lidarodom::lio::run, lio);
 
         std::cout << ANSI_COLOR_GREEN_BOLD << "init successful" << ANSI_COLOR_RESET << std::endl;
     }
 
 private:
+    ~II_NVM_Node()
+    {
+        run_thread.join();
+    }
+
     void initROS()
     {
         pub_scan_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("scan", 10);
@@ -241,6 +247,7 @@ private:
 
     tf2_ros::TransformBroadcaster tf_broadcaster_;
     rclcpp::TimerBase::SharedPtr timer_;
+    std::thread run_thread;
 };
 
 int main(int argc, char **argv)
