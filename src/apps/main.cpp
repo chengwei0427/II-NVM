@@ -65,7 +65,7 @@ public:
 
         auto period_ms = std::chrono::milliseconds(static_cast<int64_t>(30));
         // timer_ = rclcpp::create_timer(this, this->get_clock(), period_ms, std::bind(&zjloc::lidarodom::loop, lio));
-        run_thread = std::thread(&zjloc::lidarodom::lio::run, lio);
+        run_thread = std::thread(&zjloc::lidarodom::run, lio);
 
         std::cout << ANSI_COLOR_GREEN_BOLD << "init successful" << ANSI_COLOR_RESET << std::endl;
     }
