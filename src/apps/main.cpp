@@ -46,7 +46,7 @@ public:
         std::string config_file_path = this->get_parameter("config_file_path").as_string();
         RCLCPP_INFO(this->get_logger(), "config file path: %s", config_file_path.c_str());
 
-        config_file = config_file_path + "mapping.yaml";
+        config_file = config_file_path/* + "mapping.yaml"*/;
         std::cout << ANSI_COLOR_GREEN << "config_file:" << config_file << ANSI_COLOR_RESET << std::endl;
 
         lio = new zjloc::lidarodom();

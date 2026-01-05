@@ -1,3 +1,5 @@
+import os
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import PathJoinSubstitution
@@ -9,7 +11,12 @@ def generate_launch_description():
     
     # 获取project功能包路径
     project_pkg = FindPackageShare(PACKAGE_NAME)
-    config_file_path = '/home/cc/ros2_ws/src/II-NVM/config/'
+    # config_file_path = '/home/cc/ros2_ws/src/II-NVM/config/'
+    config_file_path = os.path.join(
+        get_package_share_directory('II_NVM'),
+        'config',
+        'mapping.yaml'
+    )
 
     # 配置project节点 - 移除不兼容的命令行参数
     project_node = Node(
